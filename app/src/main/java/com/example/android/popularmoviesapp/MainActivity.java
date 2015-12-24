@@ -27,31 +27,34 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Ask the user to APIkey
-                final View miView = view;
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this, R.style.AppTheme);
-                final EditText edittext = new EditText(MainActivity.this);
-                alert.setMessage(getString(R.string.message01));
-                alert.setTitle(getString(R.string.apikey));
-                alert.setView(edittext);
-                alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        apikey = edittext.getText().toString();
-                        Snackbar.make(miView, "APIkey: " + apikey, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                });
-                alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // nada
-                    }
-                });
-                alert.show();
-
-
+                getKeyApi(view); // Ask the user to APIkey
             }
         });
+    }
+
+    private void getKeyApi(View view){
+        final View miView = view;
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this, R.style.AppTheme);
+        final EditText edittext = new EditText(MainActivity.this);
+        alert.setMessage(getString(R.string.message01));
+        alert.setTitle(getString(R.string.apikey));
+        alert.setView(edittext);
+
+        alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                apikey = edittext.getText().toString();
+                Snackbar.make(miView, "APIkey: " + apikey, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Nothing
+            }
+        });
+        alert.show();
     }
 
     @Override
