@@ -15,10 +15,26 @@ import android.widget.Toast;
  * A placeholder fragment containing a simple view.
  */
 public class MainFragment extends Fragment {
+    Activity activity;
 
     public MainFragment() {
     }
 
+    private Callbacks mCallbacks;
+
+    public interface Callbacks{
+        public void onEntrySelected(int position);
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        this.activity=activity;
+        if(!(activity instanceof Callbacks)){
+            throw new IllegalStateException("Error: The activity is not implement the callback of the fragment");
+        }
+        mCallbacks = (Callbacks) activity;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,13 +55,8 @@ public class MainFragment extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                /*String forecast = adaptador.getItem(position);
-                Intent intent = new Intent(getActivity(), DetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, forecast);
-                Log.d(LOG_CAT, "----> " + forecast);
-                startActivity(intent);*/
-                Toast.makeText(activity, "" + position,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "" + position, Toast.LENGTH_SHORT).show();
+                mCallbacks.onEntrySelected(position);
             }
         });
 

@@ -8,12 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.Callbacks{
     String apikey;
 
     @Override
@@ -78,5 +79,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onEntrySelected(int position) {
+        Log.i("MainActivity", "> > > onEntrySelected()");
+        Log.d("MainActivity", "----> position: "+position);
+        if(findViewById(R.id.frm_container_detail) != null) {
+            Log.d("MainActivity", "----> DOS paneles");
+            Bundle args = new Bundle();
+            args.putInt(DetailActivityFragment.ARG_POSITION, position);
+            DetailActivityFragment fragment = new DetailActivityFragment();
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.frm_container_detail, fragment).commit();
+        }else{
+            Log.d("MainActivity", "----> UN panel");
+            Intent detailIntent = new Intent(this, DetailActivity.class);
+            detailIntent.putExtra(DetailActivityFragment.ARG_POSITION, position);
+            startActivity(detailIntent);
+        }
     }
 }
